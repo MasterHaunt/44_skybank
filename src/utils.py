@@ -18,7 +18,7 @@ def import_transactions(filename) -> list[dict]:
 
 
 operations_filename = Path(ROOT_PATH, 'data', 'operations.json')
-transactions = import_transactions(operations_filename)
+user_operations = import_transactions(operations_filename)
 
 # print(operations_filename)
 # print(transactions[4])

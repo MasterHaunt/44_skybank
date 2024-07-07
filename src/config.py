@@ -1,4 +1,4 @@
-from pathlib import Path
 import os
+from pathlib import Path
 
 ROOT_PATH = Path(os.getcwd()).parent

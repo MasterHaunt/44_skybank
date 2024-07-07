@@ -21,7 +21,10 @@ def test_log_decorator_zero_div_err_console(capsys):
     with pytest.raises(ZeroDivisionError):
         example_function_console(0)
     captured_message = capsys.readouterr()
-    assert "example_function_console error: division by zero. Inputs: (0,), {}\n\n" in captured_message.out
+    assert (
+        "example_function_console error: division by zero. Inputs: (0,), {}\n\n"
+        in captured_message.out
+    )
 
 
 def test_log_decorator_type_err_console(capsys):

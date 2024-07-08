@@ -33,6 +33,7 @@ def filter_by_currency(transactions: list[dict], currency: str):
 
 def transaction_descriptions(transactions: list[dict]):
     """Функция-генератор, принимает на вход список словарей 'transactions' с информацией о транзакциях.
-    При каждом вызове функция возвращает значение очередного словаря по ключу 'description' (описание)"""
+    При каждом вызове функция возвращает значение очередного словаря по ключу 'description' (описание)
+    """
     for transaction in transactions:
         yield transaction["description"]

@@ -1,6 +1,4 @@
-from src import masks
-from src import utils
-
+from src import masks, utils
 
 sample_card_number_1 = "4200568974529687"
 sample_card_number_2 = "420O568974529687"

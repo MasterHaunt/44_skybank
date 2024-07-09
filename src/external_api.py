@@ -15,14 +15,14 @@ def transaction_converting_to_rubles(transaction: Any) -> float:
     amount = transaction["operationAmount"]["amount"]
     currency = transaction["operationAmount"]["currency"]["code"]
     if currency == "RUB":
-        return amount
+        return float(amount)
 
     url = f"https://api.apilayer.com/exchangerates_data/convert?to=RUB&from={currency}&amount={amount}"
 
-    payload = {}
+    payload: dict = {}
     headers = {"apikey": os.getenv("APILAYER_KEY")}
 
     response = requests.request("GET", url, headers=headers, data=payload)
 
     result = response.json()
-    return result["result"]
+    return float(result["result"])

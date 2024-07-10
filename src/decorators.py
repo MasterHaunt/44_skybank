@@ -1,6 +1,9 @@
-def log(filename: str = None):
-    def decorator(d_function):
-        def wrapper(*args, **kwargs):
+from typing import Any
+
+
+def log(filename: str = "") -> Any:
+    def decorator(d_function: Any) -> Any:
+        def wrapper(*args: Any, **kwargs: Any) -> Any:
             try:
                 result = d_function(*args, **kwargs)
                 if filename:

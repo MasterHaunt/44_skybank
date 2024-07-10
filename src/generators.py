@@ -1,4 +1,7 @@
-def card_number_generator(start_index: int, stop_index: int):
+from typing import Generator
+
+
+def card_number_generator(start_index: int, stop_index: int) -> Generator:
     """Функция-генератор номеров банковских карт. Принимает на вход два целых числа: 'start_index', 'stop_index' -
     первый и последний номер соответственно. При каждом вызове возвращает строку с номером банковской карты в формате
     ХХХХ ХХХХ ХХХХ ХХХХ, последние цифры которого берутся из промежутка от 'start_index' до 'stop_index' включительно
@@ -22,7 +25,7 @@ def card_number_generator(start_index: int, stop_index: int):
         yield new_card_number
 
 
-def filter_by_currency(transactions: list[dict], currency: str):
+def filter_by_currency(transactions: list[dict], currency: str) -> Generator:
     """Функция-генератор, принимает на вход список словарей 'transactions' с информацией о транзакциях и код валюты
     'currency', по которому должна проводиться фильтрация. При каждом вызове функция возвращает словарь с информацией
     о транзакции, проведённой в валюте, указанной в параметре 'currency'"""
@@ -31,7 +34,7 @@ def filter_by_currency(transactions: list[dict], currency: str):
             yield transaction
 
 
-def transaction_descriptions(transactions: list[dict]):
+def transaction_descriptions(transactions: list[dict]) -> Generator:
     """Функция-генератор, принимает на вход список словарей 'transactions' с информацией о транзакциях.
     При каждом вызове функция возвращает значение очередного словаря по ключу 'description' (описание)
     """

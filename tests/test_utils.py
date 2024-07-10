@@ -1,10 +1,10 @@
 import json
 from unittest.mock import Mock
 
-from src.utils import import_transactions
+from src.utils import import_json_transactions
 
 
-def test_import_transactions():
+def test_import_json_transactions():
     """Тестирование функции десериализации данных о транзакциях из файла *.json. Вместо функции загрузки информации о
     транзакциях, которая мспользуется в тестируемой функции, подставлен объект Mock, возвращающий данные об одной
     транзакции в требуемом виде"""
@@ -23,7 +23,7 @@ def test_import_transactions():
         }
     )
     json.load = mock_transaction
-    assert import_transactions("./data/operations.json") == {
+    assert import_json_transactions("./data/operations.json") == {
         "id": 41428829,
         "state": "EXECUTED",
         "date": "2019-07-03T18:35:29.512364",

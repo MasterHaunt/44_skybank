@@ -1,7 +1,7 @@
 import json
 import logging
 import pandas as pd
-from typing import Any
+
 
 logger = logging.getLogger("utils_logs")
 logger.setLevel(logging.INFO)
@@ -38,29 +38,55 @@ def import_json_transactions(filename: str) -> list[dict]:
         return []
 
 
-def import_xlsx_transactions(xlsx_filename: str) -> Any:
+def import_xlsx_transactions(xlsx_filename: str) -> pd.DataFrame:
     """Функция чтения информации о транзакциях из файла *.xlsx. На вход принимает имя файла с данными о транзакциях, на
     выходе возвращает датафрейм. Если файл с указанным именем пуст или отсутствует - функция вернёт [] ( пустой
     список )"""
     logger.info("Вызвана функция загрузки информации о транзакциях из XLSX-файла")
     try:
-        # with open(xlsx_filename, "r") as xlsx_file:
-            try:
-                xlsx_transactions = pd.read_excel(xlsx_filename)
-                if xlsx_transactions.empty:
-                    logger.error("В указанном XLSX-файле информация отсутствует!")
-                    print("В указанном XLSX-файле информация отсутствует!")
-                    return []
-                else:
-                    logger.info("Информация о транзакциях успешно загружена")
-                    return xlsx_transactions
-            except Exception as e:
-                logger.error(f"Функция чтения информации о транзакциях из XLSX-файла завершилась ошибкой: {e}")
-                print("Ошибка чтения/декодирования файла!")
-                return []
+        try:
+            xlsx_transactions = pd.read_excel(xlsx_filename)
+            if xlsx_transactions.empty:
+                logger.error("В указанном XLSX-файле информация отсутствует!")
+                print("В указанном XLSX-файле информация отсутствует!")
+                return pd.DataFrame(None)
+            else:
+                logger.info("Информация о транзакциях успешно загружена")
+                return xlsx_transactions
+        except Exception as e:
+            logger.error(f"Функция чтения информации о транзакциях из XLSX-файла завершилась ошибкой: {e}")
+            print("Ошибка чтения/декодирования файла!")
+            return pd.DataFrame(None)
     except FileNotFoundError as fnfe:
         logger.error(
             f"Функция чтения информации о транзакциях завершилась ошибкой: {fnfe}"
         )
         print("Ошибка: файл не найден")
-        return []
+        return pd.DataFrame(None)
+
+
+def import_csv_transactions(csv_filename: str) -> pd.DataFrame:
+    """Функция чтения информации о транзакциях из файла *.csv. На вход принимает имя файла с данными о транзакциях, на
+    выходе возвращает датафрейм. Если файл с указанным именем пуст или отсутствует - функция вернёт [] ( пустой
+    список )"""
+    logger.info("Вызвана функция загрузки информации о транзакциях из CSV-файла")
+    try:
+        try:
+            csv_transactions = pd.read_csv(csv_filename, delimiter=";")
+            if csv_transactions.empty:
+                logger.error("В указанном CSV-файле информация отсутствует!")
+                print("В указанном CSV-файле информация отсутствует!")
+                return pd.DataFrame(None)
+            else:
+                logger.info("Информация о транзакциях успешно загружена")
+                return csv_transactions
+        except Exception as e:
+            logger.error(f"Функция чтения информации о транзакциях из CSV-файла завершилась ошибкой: {e}")
+            print("Ошибка чтения/декодирования файла!")
+            return pd.DataFrame(None)
+    except FileNotFoundError as fnfe:
+        logger.error(
+            f"Функция чтения информации о транзакциях завершилась ошибкой: {fnfe}"
+        )
+        print("Ошибка: файл не найден")
+        return pd.DataFrame(None)

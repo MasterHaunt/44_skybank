@@ -22,5 +22,5 @@ def test_transaction_converting_to_rubles(mock_get):
                 "to": "Счет 35383033474447895560",
             }
         )
-        == "1000.00"
+        == 1000.0
     )

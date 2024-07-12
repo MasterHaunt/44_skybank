@@ -12,6 +12,6 @@ if __name__ == "__main__":
     # masks.get_mask_card_number(sample_card_number_2)
     # print('json')
     # print(utils.import_json_transactions("./data/operations.json"))
-    print('xls')
-    print(utils.import_xlsx_transactions("./data/operations.xls"))
+    print('csv')
+    print(utils.import_csv_transactions("./data/transactions.csv").shape)
 

@@ -1,7 +1,7 @@
 import json
 import logging
 import pandas as pd
-
+from pandas import DataFrame
 
 logger = logging.getLogger("utils_logs")
 logger.setLevel(logging.INFO)
@@ -38,7 +38,7 @@ def import_json_transactions(filename: str) -> list[dict]:
         return []
 
 
-def import_xlsx_transactions(xlsx_filename: str) -> pd.DataFrame:
+def import_xlsx_transactions(xlsx_filename: str) -> DataFrame | DataFrame | None:
     """Функция чтения информации о транзакциях из файла *.xlsx. На вход принимает имя файла с данными о транзакциях, на
     выходе возвращает датафрейм. Если файл с указанным именем пуст или отсутствует - функция вернёт [] ( пустой
     список )"""
@@ -49,23 +49,23 @@ def import_xlsx_transactions(xlsx_filename: str) -> pd.DataFrame:
             if xlsx_transactions.empty:
                 logger.error("В указанном XLSX-файле информация отсутствует!")
                 print("В указанном XLSX-файле информация отсутствует!")
-                return pd.DataFrame(None)
+                return None
             else:
                 logger.info("Информация о транзакциях успешно загружена")
                 return xlsx_transactions
         except Exception as e:
             logger.error(f"Функция чтения информации о транзакциях из XLSX-файла завершилась ошибкой: {e}")
             print("Ошибка чтения/декодирования файла!")
-            return pd.DataFrame(None)
+            return None
     except FileNotFoundError as fnfe:
         logger.error(
             f"Функция чтения информации о транзакциях завершилась ошибкой: {fnfe}"
         )
         print("Ошибка: файл не найден")
-        return pd.DataFrame(None)
+        return None
 
 
-def import_csv_transactions(csv_filename: str) -> pd.DataFrame:
+def import_csv_transactions(csv_filename: str) -> None | DataFrame | DataFrame:
     """Функция чтения информации о транзакциях из файла *.csv. На вход принимает имя файла с данными о транзакциях, на
     выходе возвращает датафрейм. Если файл с указанным именем пуст или отсутствует - функция вернёт [] ( пустой
     список )"""
@@ -76,17 +76,17 @@ def import_csv_transactions(csv_filename: str) -> pd.DataFrame:
             if csv_transactions.empty:
                 logger.error("В указанном CSV-файле информация отсутствует!")
                 print("В указанном CSV-файле информация отсутствует!")
-                return pd.DataFrame(None)
+                return None
             else:
                 logger.info("Информация о транзакциях успешно загружена")
                 return csv_transactions
         except Exception as e:
             logger.error(f"Функция чтения информации о транзакциях из CSV-файла завершилась ошибкой: {e}")
             print("Ошибка чтения/декодирования файла!")
-            return pd.DataFrame(None)
+            return None
     except FileNotFoundError as fnfe:
         logger.error(
             f"Функция чтения информации о транзакциях завершилась ошибкой: {fnfe}"
         )
         print("Ошибка: файл не найден")
-        return pd.DataFrame(None)
+        return None

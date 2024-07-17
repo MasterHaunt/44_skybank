@@ -1,3 +1,5 @@
+import re
+
 def filter_by_state(transactions: list[dict], state: str = "EXECUTED") -> list[dict]:
     """Функция принимает на вход список словарей с информацией о транзакциях и возвращает список словарей с информацией
     о транзакциях, которые были исполнены ("state" = "EXECUTED"). Если помимо списка словарей в функцию передан второй
@@ -20,3 +22,11 @@ def sort_by_date(transactions: list[dict], *, descending: bool = True) -> list[d
     return sorted(
         transactions, key=lambda transaction: transaction["date"], reverse=descending
     )
+
+
+def search_in_transactions(transactions: list[dict], query: str) -> list[dict]:
+    queried_transactions = []
+    for transaction in transactions:
+        if re.search(query, transaction["description"], flags=re.IGNORECASE):
+            queried_transactions.append(transaction)
+    return queried_transactions

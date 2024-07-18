@@ -30,9 +30,7 @@ def test_filter_by_currency(adv_transactions_list):
 def test_transaction_descriptions(adv_transactions_list):
     """Тестирование функции-генератора описаний транзакций. Использует фикстуру 'adv_transactions_list'
     из модуля 'conftest.py'"""
-    transactions_descriptions = generators.transaction_descriptions(
-        adv_transactions_list
-    )
+    transactions_descriptions = generators.transaction_descriptions(adv_transactions_list)
     assert next(transactions_descriptions) == "Перевод организации"
     assert next(transactions_descriptions) == "Перевод со счета на счет"
     assert next(transactions_descriptions) == "Перевод со счета на счет"

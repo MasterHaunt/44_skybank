@@ -4,6 +4,9 @@ from src import masks
 def mask_account_card(account_card: str) -> str:
     """Функция маскировки номера карты/счёта"""
 
+    if account_card == "":
+        return ""
+
     # Если первые пять символов - "Счет" -> на входе номер счёта, применяем функцию маскировки номера счёта
     if account_card[0:4] == "Счет":
         account_id = "Счет " + masks.get_mask_account(account_card[-20:])

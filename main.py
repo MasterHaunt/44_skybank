@@ -165,12 +165,15 @@ def main(user_transactions: list[dict], user_options: dict):
     транзакций, преобразуя дату транзакции функцией transaction_date и маскируя номера банковских карт и счетов с
     использованием функции mask_account_card из модуля widget.py"""
     processed_transactions = main_processing(user_transactions, user_options)
-    print("Распечатываю итоговый список транзакций...")
-    print(f"Всего банковских операций в выборке: {len(processed_transactions)}")
-    for transaction in processed_transactions:
-        print(f"\n{widget.transaction_date(transaction.get("date", ""))} {transaction.get("description", "")}")
-        print(f"{widget.mask_account_card(transaction.get("from", ""))} -> {widget.mask_account_card(transaction.get("to", ""))}")
-        print(f"Сумма: {transaction["operationAmount"]["amount"]} {transaction["operationAmount"]["currency"]["name"]}")
+    if len(processed_transactions) == 0:
+        print("Выборка по заданным параметрам пуста!")
+    else:
+        print("Распечатываю итоговый список транзакций...")
+        print(f"Всего банковских операций в выборке: {len(processed_transactions)}")
+        for transaction in processed_transactions:
+            print(f"\n{widget.transaction_date(transaction.get("date", ""))} {transaction.get("description", "")}")
+            print(f"{widget.mask_account_card(transaction.get("from", ""))} -> {widget.mask_account_card(transaction.get("to", ""))}")
+            print(f"Сумма: {transaction["operationAmount"]["amount"]} {transaction["operationAmount"]["currency"]["name"]}")
 
 if __name__ == "__main__":
     main(get_transactions(), select_options())

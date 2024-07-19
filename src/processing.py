@@ -1,4 +1,4 @@
-from collections import defaultdict
+from collections import Counter
 import re
 
 
@@ -46,17 +46,21 @@ def transactions_by_categories(transactions: list[dict], categories: list[str]) 
      соответствующих категорий
     """
 
-    result_dict = defaultdict(int)
+    result_list = []
     for category in categories:
-        result_dict[category] = 0
+        # result_dict[category] = 0
         for transaction in transactions:
             if transaction["description"] == category:
-                result_dict[category] += 1
-    return result_dict
+                result_list.append(category)
+    counted = Counter(result_list)
+    for category in categories:
+        if category not in counted.keys():
+            counted[category] = 0
+    return counted
 
 
 def transactions_by_currency(transactions: list[dict], currency: str) -> list[dict]:
-    """Функция-генератор, принимает на вход список словарей 'transactions' с информацией о транзакциях и код валюты
+    """Функция принимает на вход список словарей 'transactions' с информацией о транзакциях и код валюты
     'currency', по которому должна проводиться фильтрация. При каждом вызове функция возвращает словарь с информацией
     о транзакции, проведённой в валюте, указанной в параметре 'currency'"""
     filtered_transactions = []

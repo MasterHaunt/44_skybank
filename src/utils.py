@@ -6,9 +6,7 @@ from pandas import DataFrame
 logger = logging.getLogger("utils_logs")
 logger.setLevel(logging.INFO)
 file_handler = logging.FileHandler("./logs/utils.log", "w")
-file_formatter = logging.Formatter(
-    "%(asctime)s - %(name)s - %(funcName)s %(levelname)s: %(message)s"
-)
+file_formatter = logging.Formatter("%(asctime)s - %(name)s - %(funcName)s %(levelname)s: %(message)s")
 file_handler.setFormatter(file_formatter)
 logger.addHandler(file_handler)
 
@@ -25,15 +23,11 @@ def import_json_transactions(filename: str) -> list[dict]:
                 logger.info("Информация о  транзакциях успешно загружена")
                 return list(transactions)
             except json.JSONDecodeError as jdce:
-                logger.error(
-                    f"Функция чтения информации о транзакциях завершилась ошибкой: {jdce}"
-                )
+                logger.error(f"Функция чтения информации о транзакциях завершилась ошибкой: {jdce}")
                 print("Ошибка чтения/декодирования файла!")
                 return []
     except FileNotFoundError as fnfe:
-        logger.error(
-            f"Функция чтения информации о транзакциях завершилась ошибкой: {fnfe}"
-        )
+        logger.error(f"Функция чтения информации о транзакциях завершилась ошибкой: {fnfe}")
         print("Ошибка: файл не найден")
         return []
 
@@ -58,9 +52,7 @@ def import_xlsx_transactions(xlsx_filename: str) -> DataFrame | DataFrame | None
             print("Ошибка чтения/декодирования файла!")
             return None
     except FileNotFoundError as fnfe:
-        logger.error(
-            f"Функция чтения информации о транзакциях завершилась ошибкой: {fnfe}"
-        )
+        logger.error(f"Функция чтения информации о транзакциях завершилась ошибкой: {fnfe}")
         print("Ошибка: файл не найден")
         return None
 
@@ -85,8 +77,43 @@ def import_csv_transactions(csv_filename: str) -> None | DataFrame | DataFrame:
             print("Ошибка чтения/декодирования файла!")
             return None
     except FileNotFoundError as fnfe:
-        logger.error(
-            f"Функция чтения информации о транзакциях завершилась ошибкой: {fnfe}"
-        )
+        logger.error(f"Функция чтения информации о транзакциях завершилась ошибкой: {fnfe}")
         print("Ошибка: файл не найден")
         return None
+
+
+def df_string_to_dict(input_string: pd.Series) -> dict:
+    """Функция преобразует строку датафрейма с информацией о транзакции в словарь заданного формата
+    Если поле "id" не содержит символ "."(признак вещественного числа), то создаётся пустой словарь  для последующего
+    исключения из итогового списка"""
+    if str(input_string["id"]).__contains__("."):
+        result_dict = {
+            "id": input_string["id"],
+            "state": input_string["state"],
+            "date": input_string["date"],
+            "operationAmount": {
+                "amount": input_string["amount"],
+                "currency": {"name": input_string["currency_name"], "code": input_string["currency_code"]},
+            },
+            "description": input_string["description"],
+            "from": input_string["from"],
+            "to": input_string["to"],
+        }
+    else:
+        result_dict = {}
+    return result_dict
+
+
+def dataframe_to_list_of_dicts(input_dataframe: DataFrame) -> list[dict]:
+    """Функция принимает на вход датафрейм с информацией о транзакциях, преобразует каждую строку датафрейма функцией
+    df_string_to_dict, затем собирает преобразованные строки в список словарей.
+    Пустой словарь в список не добавляется"""
+    result_list = []
+
+    transactions = input_dataframe.apply(df_string_to_dict, axis=1)
+
+    for df_row in transactions:
+        if df_row != {}:
+            df_row["id"] = int((str(df_row["id"])[0:-2]))
+            result_list.append(df_row)
+    return result_list

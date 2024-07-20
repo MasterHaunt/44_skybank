@@ -1,14 +1,16 @@
-from src import masks, utils, processing, generators, widget
+from src import utils, processing, widget
 
 
 def get_transactions():
     """Функция выводит приветствие и запрашивает у пользователя источник информации о транзакциях: JSON-файл,
     CSV-файл, XLSX-файл. На выходе функция возвращает информацию о транзакциях.
     При вводе цифры < 0 > программа завершает работу"""
-    print("Привет! Добро пожаловать в программу работы с банковскими транзакциями. \n\nВыберите необходимый пункт меню:"
-          "\n1. Получить информацию о транзакциях из JSON-файла"
-          "\n2. Получить информацию о транзакциях из CSV-файла"
-          "\n3. Получить информацию о транзакциях из XLSX-файла")
+    print(
+        "Привет! Добро пожаловать в программу работы с банковскими транзакциями. \n\nВыберите необходимый пункт меню:"
+        "\n1. Получить информацию о транзакциях из JSON-файла"
+        "\n2. Получить информацию о транзакциях из CSV-файла"
+        "\n3. Получить информацию о транзакциях из XLSX-файла"
+    )
     # Запуск бесконечного цикла запроса. Выход из цикла с выбором соответствующего источника данных происходит
     # при вводе значений "1", "2" или "3". При вводе значения "0" программа завершит работу
     while True:
@@ -24,17 +26,17 @@ def get_transactions():
             elif menu_input == "2":
                 print("Для обработки выбран CSV-файл")
                 target_file = "data/transactions.csv"
-                transactions = utils.import_csv_transactions(target_file)
+                transactions = utils.dataframe_to_list_of_dicts(utils.import_csv_transactions(target_file))
                 break
             elif menu_input == "3":
                 print("Для обработки выбран XLSX-файл")
                 target_file = "data/transactions_excel.xlsx"
-                transactions = utils.import_xlsx_transactions(target_file)
+                transactions = utils.dataframe_to_list_of_dicts(utils.import_xlsx_transactions(target_file))
                 break
             else:
-                print("Некорректный выбор. Повторите ввод, либо введите \"0\" для выхода.")
+                print('Некорректный выбор. Повторите ввод, либо введите "0" для выхода.')
         else:
-            print("Некорректный выбор. Повторите ввод, либо введите \"0\" для выхода.")
+            print('Некорректный выбор. Повторите ввод, либо введите "0" для выхода.')
     return transactions
 
 
@@ -47,9 +49,11 @@ def select_options() -> dict:
     # Запуск бесконечного цикла запроса. Выход из цикла с выбором значения для фильтрации данных происходит
     # при вводе значений "EXECUTED", "CANCELED" или "PENDING". При вводе значения "0" программа завершит работу
     while True:
-        print("Введите статус, по которому необходимо выполнить фильтрацию."
-              "\nДоступные для фильтровки статусы: EXECUTED, CANCELED, PENDING"
-              "\n(для выхода из программы введите \"0\" )")
+        print(
+            "Введите статус, по которому необходимо выполнить фильтрацию."
+            "\nДоступные для фильтровки статусы: EXECUTED, CANCELED, PENDING"
+            '\n(для выхода из программы введите "0" )'
+        )
         sorting_state = input("STATE: ").upper()
         if sorting_state == "0":
             exit("Программа завершила работу")
@@ -62,9 +66,7 @@ def select_options() -> dict:
     # Запуск бесконечного цикла запроса. Выход из цикла с выбором опции сортировки транзакций по дате происходит
     # при вводе значений "да" или "нет". При вводе значения "0" программа завершит работу
     while True:
-        print("Отсортировать транзакции по дате?"
-              "\n (да / нет)"
-              "\n (для выхода из программы введите \"0\" )")
+        print("Отсортировать транзакции по дате?" "\n (да / нет)" '\n (для выхода из программы введите "0" )')
         sort_by_date = input("Ввод: ").lower()
         if sort_by_date == "0":
             exit("Программа завершила работу")
@@ -82,9 +84,11 @@ def select_options() -> dict:
         # направления сортировки происходит при вводе значений "по возрастанию" или "по убыванию".
         # При вводе значения "0" программа завершит работу
         while True:
-            print("Отсортировать транзакции по возрастанию / по убыванию ?"
-                  "\n (по возрастанию / по убыванию)"
-                  "\n (для выхода из программы введите \"0\" )")
+            print(
+                "Отсортировать транзакции по возрастанию / по убыванию ?"
+                "\n (по возрастанию / по убыванию)"
+                '\n (для выхода из программы введите "0" )'
+            )
             descending = input("Ввод: ").lower()
             if descending == "0":
                 exit("Программа завершила работу")
@@ -100,9 +104,7 @@ def select_options() -> dict:
     # Запуск бесконечного цикла запроса. Выход из цикла с выбором отображения всех транзакций (ввод "нет") или
     # только рублевых транзакций (ввод "да"). При вводе значения "0" программа завершит работу
     while True:
-        print("Показывать только рублевые транзакции ?"
-              "\n (да / нет)"
-              "\n (для выхода из программы введите \"0\" )")
+        print("Показывать только рублевые транзакции ?" "\n (да / нет)" '\n (для выхода из программы введите "0" )')
         show_only_rub = input("Ввод: ").lower()
         if show_only_rub == "0":
             exit("Программа завершила работу")
@@ -119,9 +121,11 @@ def select_options() -> dict:
     # слова в описании транзакции (ввод "да"), либо вывод всех транзакций (ввод "нет").
     # При вводе значения "0" программа завершит работу
     while True:
-        print("Отфильтровать список транзакций по определенному слову в описании?"
-              "\n (да / нет)"
-              "\n (для выхода из программы введите \"0\" )")
+        print(
+            "Отфильтровать список транзакций по определенному слову в описании?"
+            "\n (да / нет)"
+            '\n (для выхода из программы введите "0" )'
+        )
         sort_by_query = input("Ввод: ").lower()
         if sort_by_query == "0":
             exit("Программа завершила работу")
@@ -137,7 +141,7 @@ def select_options() -> dict:
     # Если выбрана фильтрация транзакций по слову в описании: запрос слова, которое программа будет искать в
     # описаниях транзакций (поле "description")
     if options["sort_by_query"]:
-        options["query"] = input("Ввод: ").lower()
+        options["query"] = input("Введите ключевое слово для поиска: ").lower()
     return options
 
 
@@ -172,8 +176,13 @@ def main(user_transactions: list[dict], user_options: dict):
         print(f"Всего банковских операций в выборке: {len(processed_transactions)}")
         for transaction in processed_transactions:
             print(f"\n{widget.transaction_date(transaction.get("date", ""))} {transaction.get("description", "")}")
-            print(f"{widget.mask_account_card(transaction.get("from", ""))} -> {widget.mask_account_card(transaction.get("to", ""))}")
-            print(f"Сумма: {transaction["operationAmount"]["amount"]} {transaction["operationAmount"]["currency"]["name"]}")
+            print(
+                f"{widget.mask_account_card(transaction.get("from", ""))} -> {widget.mask_account_card(transaction.get("to", ""))}"
+            )
+            print(
+                f"Сумма: {transaction["operationAmount"]["amount"]} {transaction["operationAmount"]["currency"]["name"]}"
+            )
+
 
 if __name__ == "__main__":
     main(get_transactions(), select_options())

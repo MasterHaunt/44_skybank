@@ -11,7 +11,7 @@ def filter_by_state(transactions: list[dict], s_state: str = "EXECUTED") -> list
     filtered_transactions = []
     for transaction in transactions:
 
-        if transaction.get('state') == s_state:
+        if transaction.get("state") == s_state:
             filtered_transactions.append(transaction)
     return filtered_transactions
 
@@ -22,9 +22,7 @@ def sort_by_date(transactions: list[dict], *, descending: bool = True) -> list[d
     - если второй параметр передан в значении "False" -> по возрастанию (от последних к ранним)
     """
 
-    return sorted(
-        transactions, key=lambda transaction: transaction["date"], reverse=descending
-    )
+    return sorted(transactions, key=lambda transaction: transaction["date"], reverse=descending)
 
 
 def search_in_transactions(transactions: list[dict], query: str) -> list[dict]:
@@ -42,13 +40,12 @@ def search_in_transactions(transactions: list[dict], query: str) -> list[dict]:
 
 def transactions_by_categories(transactions: list[dict], categories: list[str]) -> dict:
     """Функция принимает на вход список словарей с информацией о транзакциях и список с названиями категорий операций,
-     а возвращает словарь, в котором ключи - наименования категорий операций, а значения - количества операций
-     соответствующих категорий
+    а возвращает словарь, в котором ключи - наименования категорий операций, а значения - количества операций
+    соответствующих категорий
     """
 
     result_list = []
     for category in categories:
-        # result_dict[category] = 0
         for transaction in transactions:
             if transaction["description"] == category:
                 result_list.append(category)

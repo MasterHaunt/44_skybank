@@ -4,6 +4,9 @@ from src import masks
 def mask_account_card(account_card: str) -> str:
     """Функция маскировки номера карты/счёта"""
 
+    if type(account_card) is not str:
+        return ""
+
     # Если первые пять символов - "Счет" -> на входе номер счёта, применяем функцию маскировки номера счёта
     if account_card[0:4] == "Счет":
         account_id = "Счет " + masks.get_mask_account(account_card[-20:])
@@ -17,10 +20,4 @@ def mask_account_card(account_card: str) -> str:
 
 def transaction_date(transaction_datetime: str) -> str:
     """функция определения даты транзакции"""
-    return (
-        transaction_datetime[8:10]
-        + "."
-        + transaction_datetime[5:7]
-        + "."
-        + transaction_datetime[0:4]
-    )
+    return transaction_datetime[8:10] + "." + transaction_datetime[5:7] + "." + transaction_datetime[0:4]

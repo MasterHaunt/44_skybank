@@ -45,6 +45,5 @@ def test_log_decorator_type_err_logging():
     with open("tests.txt", "r", encoding="UTF-8") as log_file:
         lines = log_file.read()
         assert (
-            "example_function error: unsupported operand type(s) for /: 'int' and 'str'. Inputs: ('5',), {}"
-            in lines
+            "example_function error: unsupported operand type(s) for /: 'int' and 'str'. Inputs: ('5',), {}" in lines
         )
